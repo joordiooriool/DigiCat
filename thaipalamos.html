@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Palamós · Cuina tailandesa autèntica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --jade-deep: #0d2820;
+    --jade-mid: #1a4032;
+    --jade-soft: #2d5f4e;
+    --gold: #c9a875;
+    --gold-bright: #e0c285;
+    --cream: #f5efe2;
+    --cream-soft: #faf6ec;
+    --soft-black: #1a1614;
+    --chili: #c8451e;
+    --text-light: rgba(245,239,226,0.85);
+    --text-muted: rgba(245,239,226,0.55);
+    --border-soft: rgba(201,168,117,0.18);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Outfit', -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--jade-deep);
+    color: var(--text-light);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(13,40,32,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-soft);
+    padding: 1rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-logo {
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+  .nav-logo-main {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    color: var(--cream);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    font-style: italic;
+  }
+  .nav-logo-accent {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .nav-menu {
+    display: flex;
+    gap: 2.2rem;
+    align-items: center;
+  }
+  .nav-menu a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-menu a:hover { color: var(--gold); }
+  .nav-menu a.active { color: var(--gold); }
+  .lang-selector {
+    position: relative;
+  }
+  .lang-toggle {
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    color: var(--gold);
+    padding: 0.45rem 0.9rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+  }
+  .lang-toggle:hover { border-color: var(--gold); }
+  .lang-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    background: var(--jade-mid);
+    border: 1px solid var(--border-soft);
+    min-width: 160px;
+    z-index: 100;
+  }
+  .lang-dropdown.open { display: block; }
+  .lang-dropdown button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    padding: 0.7rem 1rem;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    letter-spacing: 0.05em;
+  }
+  .lang-dropdown button:hover { background: var(--jade-soft); color: var(--gold); }
+  .lang-dropdown button.active-lang { color: var(--gold); }
+
+  .nav-mobile-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--gold);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* === RESERVE CTA in nav === */
+  .nav-cta {
+    background: var(--gold);
+    color: var(--jade-deep) !important;
+    padding: 0.55rem 1.2rem;
+    font-weight: 500 !important;
+    letter-spacing: 0.15em !important;
+    transition: background 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold-bright); }
+
+  /* === HERO SLIDER === */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 7rem 2rem 4rem;
+    overflow: hidden;
+  }
+  .hero-slides {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: heroSlider 32s infinite;
+  }
+  .hero-slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(13,40,32,0.55), rgba(13,40,32,0.85));
+  }
+  .hero-slide:nth-child(1) {
+    background-image: url('https://images.unsplash.com/photo-1559314809-0d155014e29e?w=1920&q=80');
+    animation-delay: 0s;
+  }
+  .hero-slide:nth-child(2) {
+    background-image: url('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1920&q=80');
+    animation-delay: 8s;
+  }
+  .hero-slide:nth-child(3) {
+    background-image: url('https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=1920&q=80');
+    animation-delay: 16s;
+  }
+  .hero-slide:nth-child(4) {
+    background-image: url('https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=1920&q=80');
+    animation-delay: 24s;
+  }
+  @keyframes heroSlider {
+    0%   { opacity: 0; transform: scale(1.0); }
+    3%   { opacity: 1; }
+    25%  { opacity: 1; transform: scale(1.08); }
+    28%  { opacity: 0; }
+    100% { opacity: 0; transform: scale(1.0); }
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(201,168,117,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-soft);
+    display: inline-block;
+    padding: 0 2rem 1rem;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    max-width: 950px;
+  }
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--text-light);
+    max-width: 1100px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    font-weight: 300;
+    white-space: nowrap;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--jade-deep);
+    padding: 1.1rem 2.8rem;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: 1px solid var(--gold);
+  }
+  .hero-cta:hover {
+    background: transparent;
+    color: var(--gold);
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    color: var(--gold);
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    animation: bounceDown 2.5s infinite;
+    z-index: 2;
+  }
+  @keyframes bounceDown {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
+  }
+
+  /* === SECTIONS === */
+  section {
+    padding: 7rem 2.5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .section-eyebrow {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 1.8rem;
+  }
+  .section-title em { color: var(--gold); font-style: italic; }
+  .section-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin-bottom: 2.5rem;
+  }
+
+  /* === NOSALTRES === */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-img {
+    height: 600px;
+    background: url('https://images.unsplash.com/photo-1559847844-5315695dadae?w=900&q=80') center/cover;
+    position: relative;
+  }
+  .about-img::before {
+    content: '';
+    position: absolute;
+    inset: 15px;
+    border: 1px solid var(--gold);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 1.3rem;
+    color: var(--text-light);
+    font-weight: 300;
+  }
+  .about-text .highlight {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--gold);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--gold);
+  }
+
+  /* === SPECIALITIES === */
+  .specialities {
+    background: var(--jade-mid);
+    margin-top: 3rem;
+    padding: 7rem 2.5rem;
+  }
+  .specialities-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+  .spec-card {
+    background: var(--jade-deep);
+    border: 1px solid var(--border-soft);
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+  .spec-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+  }
+  .spec-img {
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+  }
+  .spec-img.s1 { background-image: url('https://images.unsplash.com/photo-1559314809-0d155014e29e?w=700&q=80'); }
+  .spec-img.s2 { background-image: url('https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=700&q=80'); }
+  .spec-img.s3 { background-image: url('https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=700&q=80'); }
+  .spec-img.s4 { background-image: url('https://images.unsplash.com/photo-1543826173-1b5cca8b34a4?w=700&q=80'); }
+
+  .spec-content {
+    padding: 2rem 2.2rem;
+  }
+  .spec-tag {
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .spec-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--cream);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .spec-desc {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* === MENU === */
+  .menu-section { background: var(--jade-deep); }
+  .menu-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .menu-tab {
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    color: var(--text-muted);
+    padding: 0.7rem 1.6rem;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .menu-tab:hover { color: var(--gold); border-color: var(--gold); }
+  .menu-tab.active {
+    background: var(--gold);
+    color: var(--jade-deep);
+    border-color: var(--gold);
+  }
+  .menu-category { display: none; }
+  .menu-category.active { display: block; }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem 4rem;
+  }
+  .menu-item {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed rgba(201,168,117,0.15);
+  }
+  .menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .menu-item-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .menu-item-name .thai-name {
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-style: italic;
+    margin-left: 0.5rem;
+  }
+  .menu-item-price {
+    font-family: var(--font-display);
+    color: var(--gold);
+    font-size: 1.2rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .menu-item-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  .spice {
+    display: inline-block;
+    margin-left: 0.5rem;
+    color: var(--chili);
+    font-size: 0.85rem;
+  }
+
+  /* === RESERVA === */
+  .reserva-section {
+    background: var(--jade-mid);
+    text-align: center;
+    padding: 7rem 2.5rem;
+  }
+  .reserva-section .section-divider { margin: 0 auto 2.5rem; }
+  .reserva-info {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .reserva-cta {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--jade-deep);
+    padding: 1.2rem 3rem;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--gold);
+    font-family: var(--font-sans);
+    transition: all 0.3s;
+  }
+  .reserva-cta:hover {
+    background: transparent;
+    color: var(--gold);
+  }
+
+  /* === HORARI === */
+  .horari-section {
+    text-align: center;
+  }
+  .horari-table {
+    margin: 3rem auto 0;
+    max-width: 500px;
+    width: 100%;
+  }
+  .horari-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 0.95rem;
+  }
+  .horari-row:first-child { border-top: 1px solid var(--border-soft); }
+  .horari-day {
+    color: var(--cream);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-align: left;
+  }
+  .horari-hours {
+    color: var(--text-light);
+    font-weight: 300;
+    text-align: right;
+  }
+  .horari-hours.closed {
+    color: var(--chili);
+    font-style: italic;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* === CONTACTE === */
+  .contacte-section {
+    background: var(--soft-black);
+  }
+  .contacte-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    margin-top: 3rem;
+  }
+  .contacte-info-block {
+    margin-bottom: 2.2rem;
+  }
+  .contacte-info-label {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .contacte-info-value {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--cream);
+    font-weight: 400;
+  }
+  .contacte-info-value a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .contacte-info-value a:hover { color: var(--gold); }
+  .contact-buttons {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: 1px solid;
+  }
+  .contact-btn-wa {
+    background: #25D366;
+    color: white;
+    border-color: #25D366;
+  }
+  .contact-btn-wa:hover {
+    background: transparent;
+    color: #25D366;
+  }
+  .contact-btn-call {
+    background: transparent;
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .contact-btn-call:hover {
+    background: var(--gold);
+    color: var(--jade-deep);
+  }
+  .map-container {
+    height: 400px;
+    background: var(--jade-mid);
+    border: 1px solid var(--border-soft);
+    overflow: hidden;
+    display: block;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+  .map-container:hover {
+    border-color: var(--gold);
+  }
+  .map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(0.3) contrast(0.95);
+    pointer-events: none;
+  }
+  .map-overlay {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: var(--jade-deep);
+    color: var(--gold);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid var(--gold);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .map-container:hover .map-overlay {
+    background: var(--gold);
+    color: var(--jade-deep);
+  }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--jade-deep);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    border-top: 1px solid var(--border-soft);
+  }
+  .footer-brand {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 0.4rem;
+  }
+  .footer-tag {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .footer-copyright {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-soft);
+  }
+  .demo-notice {
+    color: var(--chili);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    opacity: 0.7;
+  }
+
+  /* === WHATSAPP FLOATING === */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 1.8rem;
+    right: 1.8rem;
+    width: 58px;
+    height: 58px;
+    background: #25D366;
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 999;
+    transition: transform 0.3s;
+  }
+  .whatsapp-float:hover { transform: scale(1.08); }
+  .whatsapp-float svg { width: 30px; height: 30px; }
+
+
+  /* === MOBILE === */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-menu {
+      display: none;
+      position: fixed;
+      top: 70px; left: 0; right: 0;
+      background: var(--jade-deep);
+      flex-direction: column;
+      gap: 0;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .nav-menu.open { display: flex; }
+    .nav-menu a { padding: 1rem 2rem; width: 100%; text-align: center; }
+    .nav-mobile-toggle { display: block; }
+    .lang-selector { padding: 0.5rem 2rem; }
+    .nav-cta { margin: 1rem 2rem; }
+    .hero { padding: 6rem 1.5rem 4rem; }
+    .hero-sub { white-space: normal; max-width: 100%; font-size: 0.92rem; }
+    section { padding: 5rem 1.5rem; }
+    .specialities, .reserva-section, .menu-section, .contacte-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .about { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-img { height: 400px; }
+    .spec-grid { grid-template-columns: 1fr; }
+    .menu-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contacte-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .horari-table { padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========= NAV ========= -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <span class="nav-logo-main">Thai</span>
+    <span class="nav-logo-accent">Palamós</span>
+  </a>
+  <div class="nav-menu" id="nav-menu">
+    <a href="#about" data-i18n="nav-about">Nosaltres</a>
+    <a href="#menu" data-i18n="nav-menu">Carta</a>
+    <a href="#horari" data-i18n="nav-hours">Horari</a>
+    <a href="#contacte" data-i18n="nav-contact">Contacte</a>
+    <div class="lang-selector">
+      <button class="lang-toggle" onclick="toggleLang(event)" id="lang-current">CAT</button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <button onclick="setLang('ca')" class="active-lang" data-lang="ca">CAT — Català</button>
+        <button onclick="setLang('es')" data-lang="es">ESP — Español</button>
+        <button onclick="setLang('en')" data-lang="en">ENG — English</button>
+        <button onclick="setLang('fr')" data-lang="fr">FRA — Français</button>
+      </div>
+    </div>
+    <a href="#" onclick="obrirWhatsAppReserva(event)" class="nav-cta" data-i18n="nav-reserve">Reservar</a>
+  </div>
+  <button class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</button>
+</nav>
+
+<!-- ========= HERO ========= -->
+<section class="hero" id="hero" style="max-width: none; padding-left: 2rem; padding-right: 2rem; margin: 0;">
+  <div class="hero-slides">
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-i18n="hero-eyebrow">Cuina tailandesa autèntica · Costa Brava</div>
+    <h1 data-i18n="hero-title">L'<em>autèntica Tailàndia</em><br>al cor de Palamós.</h1>
+    <p class="hero-sub" data-i18n="hero-sub">Tradició mil·lenària, ingredients frescos i el saber fer dels nostres cuiners, originaris de Tailàndia</p>
+    <a href="#" onclick="obrirWhatsAppReserva(event)" class="hero-cta" data-i18n="hero-cta">Reservar Taula</a>
+  </div>
+  <div class="hero-scroll" data-i18n="hero-scroll">Descobreix ↓</div>
+</section>
+
+<!-- ========= NOSALTRES ========= -->
+<section id="about">
+  <div class="about">
+    <div class="about-img"></div>
+    <div class="about-text">
+      <div class="section-eyebrow" data-i18n="about-eyebrow">Sobre nosaltres</div>
+      <h2 class="section-title" data-i18n="about-title">Una <em>història</em><br>que ve de lluny.</h2>
+      <div class="section-divider"></div>
+      <p class="highlight" data-i18n="about-highlight">"La nostra cuina no és una recepta: és la memòria de la nostra terra, plat a plat."</p>
+      <p data-i18n="about-p1">A Thai Palamós no fem fusió ni adaptem sabors. Servim cuina tailandesa tal com es menja als carrers de Bangkok i als mercats de Chiang Mai. Els nostres cuiners són tailandesos, i porten amb ells dècades d'experiència de restaurants familiars.</p>
+      <p data-i18n="about-p2">Treballem amb productes frescos del mercat local sempre que és possible, i importem directament de Tailàndia els ingredients que defineixen els nostres plats: pasta de curry verda, llet de coco, kafir, gangal i albahaca tailandesa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========= ESPECIALITATS ========= -->
+<section class="specialities" style="max-width: none; margin: 0;">
+  <div class="specialities-inner">
+    <div style="text-align: center;">
+      <div class="section-eyebrow" data-i18n="spec-eyebrow">Els nostres clàssics</div>
+      <h2 class="section-title" data-i18n="spec-title">Plats <em>imprescindibles</em></h2>
+      <div class="section-divider" style="margin: 1.5rem auto 0;"></div>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-img s1"></div>
+        <div class="spec-content">
+          <div class="spec-tag" data-i18n="spec-1-tag">Plat estrella</div>
+          <h3 class="spec-title">Pad Thai</h3>
+          <p class="spec-desc" data-i18n="spec-1-desc">Fideus d'arròs saltats amb gambes, ou, brots de soja i cacauet picat. El plat més conegut de Tailàndia, fet com cal.</p>
+        </div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-img s2"></div>
+        <div class="spec-content">
+          <div class="spec-tag" data-i18n="spec-2-tag">Pels valents</div>
+          <h3 class="spec-title">Tom Yum Goong</h3>
+          <p class="spec-desc" data-i18n="spec-2-desc">Sopa picant de gambes amb llimona, gangal i bolets. Equilibri perfecte entre àcid, picant i salat.</p>
+        </div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-img s3"></div>
+        <div class="spec-content">
+          <div class="spec-tag" data-i18n="spec-3-tag">Cuina del nord</div>
+          <h3 class="spec-title">Curry Verd de Pollastre</h3>
+          <p class="spec-desc" data-i18n="spec-3-desc">Pollastre a foc lent en pasta de curry verd, llet de coco, alberginia tailandesa i albahaca dolça. Cremós i aromàtic.</p>
+        </div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-img s4"></div>
+        <div class="spec-content">
+          <div class="spec-tag" data-i18n="spec-4-tag">Per acabar</div>
+          <h3 class="spec-title">Mango Sticky Rice</h3>
+          <p class="spec-desc" data-i18n="spec-4-desc">Arròs glutinós cuit amb llet de coco i mango fresc. La postre nacional tailandesa: dolça, simple, perfecta.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========= CARTA ========= -->
+<section class="menu-section" id="menu" style="max-width: none; margin: 0;">
+  <div style="max-width: 1300px; margin: 0 auto;">
+    <div style="text-align: center;">
+      <div class="section-eyebrow" data-i18n="menu-eyebrow">La nostra carta</div>
+      <h2 class="section-title" data-i18n="menu-title">Cuina <em>tradicional</em></h2>
+      <div class="section-divider" style="margin: 1.5rem auto 0;"></div>
+    </div>
+
+    <div class="menu-tabs">
+      <button class="menu-tab active" onclick="showCategory('entrants')" data-i18n="cat-starters">Entrants</button>
+      <button class="menu-tab" onclick="showCategory('sopes')" data-i18n="cat-soups">Sopes</button>
+      <button class="menu-tab" onclick="showCategory('currys')" data-i18n="cat-currys">Currys</button>
+      <button class="menu-tab" onclick="showCategory('fideus')" data-i18n="cat-noodles">Fideus i Arròs</button>
+      <button class="menu-tab" onclick="showCategory('postres')" data-i18n="cat-desserts">Postres</button>
+    </div>
+
+    <!-- ENTRANTS -->
+    <div class="menu-category active" id="cat-entrants">
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Spring Rolls<span class="thai-name">Por Pia Tod</span></div>
+            <div class="menu-item-price">7,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-springrolls">Rotllets cruixents farcits de verdures i fideus de cristall, amb salsa agredolça.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Satay de Pollastre<span class="thai-name">Satay Gai</span></div>
+            <div class="menu-item-price">9,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-satay">Enfilalls marinats en cúrcuma i llet de coco, amb salsa de cacauet casolana.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Som Tam<span class="thai-name">ส้มตำ</span><span class="spice">🌶</span></div>
+            <div class="menu-item-price">8,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-somtam">Amanida de papaia verda picant amb tomàquet, cacauet i salsa de peix.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Tod Mun Pla<span class="thai-name">ทอดมันปลา</span></div>
+            <div class="menu-item-price">9,20€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-todmun">Croquetes de peix amb pasta de curry vermell, fulles de kafir i mongetes verdes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOPES -->
+    <div class="menu-category" id="cat-sopes">
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Tom Yum Goong<span class="thai-name">ต้มยำกุ้ง</span><span class="spice">🌶🌶</span></div>
+            <div class="menu-item-price">12,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-tomyum">Sopa picant amb gambes, llimona, gangal, bolets i citronel·la. La més clàssica.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Tom Kha Gai<span class="thai-name">ต้มข่าไก่</span></div>
+            <div class="menu-item-price">11,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-tomkha">Sopa cremosa de pollastre amb llet de coco, gangal i fulles de kafir. Aromàtica.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Po Tak<span class="thai-name">โป๊ะแตก</span><span class="spice">🌶🌶</span></div>
+            <div class="menu-item-price">14,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-potak">Sopa de marisc tailandesa amb gambes, calamars, musclos i albahaca. Intensa.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Khao Tom<span class="thai-name">ข้าวต้ม</span></div>
+            <div class="menu-item-price">9,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-khaotom">Caldo d'arròs amb gingebre, all fregit i porc. Reconfortant a l'estil tailandès.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURRYS -->
+    <div class="menu-category" id="cat-currys">
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Curry Verd<span class="thai-name">แกงเขียวหวาน</span><span class="spice">🌶🌶</span></div>
+            <div class="menu-item-price">14,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-greencurry">Pollastre o tofu amb pasta verda, llet de coco, alberginia tailandesa i albahaca dolça.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Curry Vermell<span class="thai-name">แกงแดง</span><span class="spice">🌶🌶🌶</span></div>
+            <div class="menu-item-price">14,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-redcurry">Vedella amb pasta de curry vermell, bambú, albahaca i una mica de sucre de palma.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Massaman<span class="thai-name">มัสมั่น</span></div>
+            <div class="menu-item-price">15,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-massaman">Curry suau d'inspiració persa amb anyell, patata, ceba i cacauet. Dolç i especiat.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Panang<span class="thai-name">พะแนง</span><span class="spice">🌶</span></div>
+            <div class="menu-item-price">14,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-panang">Curry sec amb pollastre o vedella, fulles de kafir i llet de coco reduïda.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIDEUS I ARRÒS -->
+    <div class="menu-category" id="cat-fideus">
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Pad Thai<span class="thai-name">ผัดไทย</span></div>
+            <div class="menu-item-price">13,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-padthai">Fideus d'arròs amb gambes, ou, tofu, brots de soja i cacauet. El nostre plat estrella.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Pad See Ew<span class="thai-name">ผัดซีอิ๊ว</span></div>
+            <div class="menu-item-price">12,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-padseeew">Fideus amples saltats amb porc, ou i col xinesa amb salsa de soja fosca.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Khao Pad<span class="thai-name">ข้าวผัด</span></div>
+            <div class="menu-item-price">11,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-khaopad">Arròs fregit a l'estil tailandès amb pollastre, ou, ceba tendra i lima.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Pad Krapow<span class="thai-name">ผัดกะเพรา</span><span class="spice">🌶🌶</span></div>
+            <div class="menu-item-price">12,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-padkrapow">Carn picada saltada amb albahaca santa, all i bitxo, servit amb arròs i ou ferrat.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSTRES -->
+    <div class="menu-category" id="cat-postres">
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Mango Sticky Rice<span class="thai-name">ข้าวเหนียวมะม่วง</span></div>
+            <div class="menu-item-price">7,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-mango">Arròs glutinós amb llet de coco, mango fresc i sèsam torrat. La postre nacional.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Tub Tim Krob<span class="thai-name">ทับทิมกรอบ</span></div>
+            <div class="menu-item-price">6,50€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-tubtim">Castanyes d'aigua en gelatina vermella amb gel raspat, llet de coco i jaca.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Plàtan Fregit<span class="thai-name">กล้วยทอด</span></div>
+            <div class="menu-item-price">6,00€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-banana">Plàtan banyat en pasta cruixent de coco amb gelat de vainilla i mel.</p>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-header">
+            <div class="menu-item-name">Bua Loy<span class="thai-name">บัวลอย</span></div>
+            <div class="menu-item-price">6,80€</div>
+          </div>
+          <p class="menu-item-desc" data-i18n="m-bualoy">Boletes de farina de pandanus en llet de coco calenta amb ou pochè.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========= RESERVA CTA ========= -->
+<section class="reserva-section" style="max-width: none; margin: 0;">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <div class="section-eyebrow" data-i18n="reserva-eyebrow">Reserva la teva taula</div>
+    <h2 class="section-title" data-i18n="reserva-title">Una <em>experiència</em> que recordareu.</h2>
+    <div class="section-divider"></div>
+    <p class="reserva-info" data-i18n="reserva-info">El nostre local té places limitades. Reserveu amb antelació, especialment per a sopars de divendres i dissabte.</p>
+    <a href="#" onclick="obrirWhatsAppReserva(event)" class="reserva-cta" data-i18n="reserva-cta">Reservar ara</a>
+  </div>
+</section>
+
+<!-- ========= HORARI ========= -->
+<section id="horari" class="horari-section">
+  <div class="section-eyebrow" data-i18n="horari-eyebrow">Quan ens podeu visitar</div>
+  <h2 class="section-title" data-i18n="horari-title">Horari <em>d'obertura</em></h2>
+  <div class="section-divider" style="margin-left: auto; margin-right: auto;"></div>
+  <div class="horari-table">
+    <div class="horari-row">
+      <span class="horari-day" data-i18n="day-mon">Dilluns</span>
+      <span class="horari-hours closed" data-i18n="closed">Tancat</span>
+    </div>
+    <div class="horari-row">
+      <span class="horari-day" data-i18n="day-tue">Dimarts</span>
+      <span class="horari-hours closed" data-i18n="closed">Tancat</span>
+    </div>
+    <div class="horari-row">
+      <span class="horari-day" data-i18n="day-wed">Dimecres</span>
+      <span class="horari-hours closed" data-i18n="closed">Tancat</span>
+    </div>
+    <div class="horari-row">
+      <span class="horari-day" data-i18n="day-thu">Dijous</span>
+      <span class="horari-hours">20:15 – 23:00</span>
+    </div>
+    <div class="horari-row">
+      <span class="horari-day" data-i18n="day-fri">Divendres</span>
+      <span class="horari-hours">20:15 – 23:00</span>
+    </div>
+    <div class="horari-row">
+      <span class="horari-day" data-i18n="day-sat">Dissabte</span>
+      <span class="horari-hours">13:00 – 16:00 · 20:15 – 23:00</span>
+    </div>
+    <div class="horari-row">
+      <span class="horari-day" data-i18n="day-sun">Diumenge</span>
+      <span class="horari-hours">13:00 – 16:00</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========= CONTACTE ========= -->
+<section id="contacte" class="contacte-section" style="max-width: none; margin: 0;">
+  <div style="max-width: 1300px; margin: 0 auto;">
+    <div style="text-align: center;">
+      <div class="section-eyebrow" data-i18n="contact-eyebrow">On trobar-nos</div>
+      <h2 class="section-title" data-i18n="contact-title">Veniu a <em>visitar-nos</em></h2>
+      <div class="section-divider" style="margin: 1.5rem auto 0;"></div>
+    </div>
+    <div class="contacte-grid">
+      <div>
+        <div class="contacte-info-block">
+          <div class="contacte-info-label" data-i18n="contact-address">Adreça</div>
+          <div class="contacte-info-value"><a href="https://www.google.com/maps/place/Thai/@41.8472493,3.1272478,17z/data=!3m2!4b1!5s0x12bbaafad304db69:0xea643fddbcd59e71!4m6!3m5!1s0x12bbaafad2f1558b:0xd2b5c47c9ade8cd3!8m2!3d41.8472453!4d3.1298227!16s%2Fg%2F11hbq9rml6?entry=ttu" target="_blank" rel="noopener">Carrer Pagès Ortiz, 23<br>17230 Palamós, Girona</a></div>
+        </div>
+        <div class="contacte-info-block">
+          <div class="contacte-info-label" data-i18n="contact-phone">Telèfon</div>
+          <div class="contacte-info-value" style="margin-bottom: 0.8rem;">+34 722 61 91 99</div>
+          <div class="contact-buttons">
+            <a href="https://wa.me/34722619199" target="_blank" class="contact-btn contact-btn-wa">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+              <span data-i18n="contact-wa-btn">WhatsApp</span>
+            </a>
+            <a href="tel:+34722619199" class="contact-btn contact-btn-call">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.58l2.2-2.21c.28-.27.36-.66.25-1.01C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>
+              <span data-i18n="contact-call-btn">Trucar</span>
+            </a>
+          </div>
+        </div>
+        <div class="contacte-info-block">
+          <div class="contacte-info-label" data-i18n="contact-email">Email</div>
+          <div class="contacte-info-value"><a href="mailto:info@thaipalamos.cat">info@thaipalamos.cat</a></div>
+        </div>
+        <div class="contacte-info-block">
+          <div class="contacte-info-label" data-i18n="contact-followus">Seguiu-nos</div>
+          <div class="contacte-info-value">@thaipalamos</div>
+        </div>
+      </div>
+      <a href="https://www.google.com/maps/place/Thai/@41.8472493,3.1272478,17z/data=!3m2!4b1!5s0x12bbaafad304db69:0xea643fddbcd59e71!4m6!3m5!1s0x12bbaafad2f1558b:0xd2b5c47c9ade8cd3!8m2!3d41.8472453!4d3.1298227!16s%2Fg%2F11hbq9rml6?entry=ttu" target="_blank" rel="noopener" class="map-container" aria-label="Veure ubicació a Google Maps">
+        <iframe src="https://www.google.com/maps?q=Thai+Restaurant+Carrer+Pages+Ortiz+23+Palamos&ll=41.8472453,3.1298227&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-overlay">
+          <span data-i18n="map-cta">Obrir a Google Maps</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========= FOOTER ========= -->
+<footer>
+  <div class="footer-brand">Thai Palamós</div>
+  <div class="footer-tag" data-i18n="footer-tag">Cuina tailandesa autèntica · Costa Brava</div>
+  <div class="footer-copyright">
+    © 2026 Thai Palamós · <span data-i18n="footer-rights">Tots els drets reservats</span>
+    <div class="demo-notice">— Versió DEMO · Dades de mostra per a presentació —</div>
+  </div>
+</footer>
+
+<!-- ========= WHATSAPP FLOATING ========= -->
+<a href="https://wa.me/34722619199" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  // ===== MULTI-IDIOMA =====
+  var i18n = {
+    'nav-about': {ca:'Nosaltres', es:'Nosotros', en:'About', fr:'Nous'},
+    'nav-menu': {ca:'Carta', es:'Carta', en:'Menu', fr:'Carte'},
+    'nav-hours': {ca:'Horari', es:'Horario', en:'Hours', fr:'Horaires'},
+    'nav-contact': {ca:'Contacte', es:'Contacto', en:'Contact', fr:'Contact'},
+    'nav-reserve': {ca:'Reservar', es:'Reservar', en:'Book', fr:'Réserver'},
+    'hero-eyebrow': {ca:'Cuina tailandesa autèntica · Costa Brava', es:'Cocina tailandesa auténtica · Costa Brava', en:'Authentic Thai cuisine · Costa Brava', fr:'Cuisine thaïlandaise authentique · Costa Brava'},
+    'hero-title': {ca:'L\'<em>autèntica Tailàndia</em><br>al cor de Palamós.', es:'La <em>auténtica Tailandia</em><br>en el corazón de Palamós.', en:'The <em>authentic Thailand</em><br>in the heart of Palamós.', fr:'La <em>vraie Thaïlande</em><br>au cœur de Palamós.'},
+    'hero-sub': {ca:'Tradició mil·lenària, ingredients frescos i el saber fer dels nostres cuiners, originaris de Tailàndia', es:'Tradición milenaria, ingredientes frescos y el saber hacer de nuestros cocineros, originarios de Tailandia', en:'Ancient tradition, fresh ingredients and the expertise of our chefs, originally from Thailand', fr:'Tradition millénaire, ingrédients frais et savoir-faire de nos chefs, originaires de Thaïlande'},
+    'hero-cta': {ca:'Reservar Taula', es:'Reservar Mesa', en:'Book a Table', fr:'Réserver une Table'},
+    'hero-scroll': {ca:'Descobreix ↓', es:'Descubre ↓', en:'Discover ↓', fr:'Découvrir ↓'},
+    'about-eyebrow': {ca:'Sobre nosaltres', es:'Sobre nosotros', en:'About us', fr:'À propos'},
+    'about-title': {ca:'Una <em>història</em><br>que ve de lluny.', es:'Una <em>historia</em><br>que viene de lejos.', en:'A <em>story</em><br>from far away.', fr:'Une <em>histoire</em><br>venue de loin.'},
+    'about-highlight': {ca:'"La nostra cuina no és una recepta: és la memòria de la nostra terra, plat a plat."', es:'"Nuestra cocina no es una receta: es la memoria de nuestra tierra, plato a plato."', en:'"Our cuisine is not a recipe: it is the memory of our land, dish by dish."', fr:'"Notre cuisine n\'est pas une recette: c\'est la mémoire de notre terre, plat après plat."'},
+    'about-p1': {ca:'A Thai Palamós no fem fusió ni adaptem sabors. Servim cuina tailandesa tal com es menja als carrers de Bangkok i als mercats de Chiang Mai. Els nostres cuiners són tailandesos, i porten amb ells dècades d\'experiència de restaurants familiars.', es:'En Thai Palamós no hacemos fusión ni adaptamos sabores. Servimos cocina tailandesa tal como se come en las calles de Bangkok y en los mercados de Chiang Mai. Nuestros cocineros son tailandeses, y traen consigo décadas de experiencia de restaurantes familiares.', en:'At Thai Palamós we don\'t do fusion or adapt flavors. We serve Thai cuisine just as it\'s eaten in the streets of Bangkok and the markets of Chiang Mai. Our chefs are Thai, bringing decades of experience from family restaurants.', fr:'Chez Thai Palamós nous ne faisons pas de fusion ni n\'adaptons les saveurs. Nous servons la cuisine thaï telle qu\'on la mange dans les rues de Bangkok et les marchés de Chiang Mai. Nos chefs sont thaïlandais, avec des décennies d\'expérience en restaurants familiaux.'},
+    'about-p2': {ca:'Treballem amb productes frescos del mercat local sempre que és possible, i importem directament de Tailàndia els ingredients que defineixen els nostres plats: pasta de curry verda, llet de coco, kafir, gangal i albahaca tailandesa.', es:'Trabajamos con productos frescos del mercado local siempre que es posible, e importamos directamente de Tailandia los ingredientes que definen nuestros platos: pasta de curry verde, leche de coco, kafir, galanga y albahaca tailandesa.', en:'We work with fresh local market produce whenever possible, and import directly from Thailand the ingredients that define our dishes: green curry paste, coconut milk, kaffir lime, galangal and Thai basil.', fr:'Nous travaillons avec des produits frais du marché local autant que possible, et importons directement de Thaïlande les ingrédients qui définissent nos plats: pâte de curry vert, lait de coco, kaffir, galanga et basilic thaï.'},
+    'spec-eyebrow': {ca:'Els nostres clàssics', es:'Nuestros clásicos', en:'Our classics', fr:'Nos classiques'},
+    'spec-title': {ca:'Plats <em>imprescindibles</em>', es:'Platos <em>imprescindibles</em>', en:'<em>Essential</em> dishes', fr:'Plats <em>incontournables</em>'},
+    'spec-1-tag': {ca:'Plat estrella', es:'Plato estrella', en:'Star dish', fr:'Plat phare'},
+    'spec-1-desc': {ca:'Fideus d\'arròs saltats amb gambes, ou, brots de soja i cacauet picat. El plat més conegut de Tailàndia, fet com cal.', es:'Fideos de arroz salteados con gambas, huevo, brotes de soja y cacahuete picado. El plato más conocido de Tailandia, hecho como debe.', en:'Stir-fried rice noodles with prawns, egg, bean sprouts and crushed peanut. Thailand\'s most famous dish, done right.', fr:'Nouilles de riz sautées aux crevettes, œuf, germes de soja et cacahuète. Le plat le plus connu de Thaïlande, fait dans les règles.'},
+    'spec-2-tag': {ca:'Pels valents', es:'Para los valientes', en:'For the brave', fr:'Pour les courageux'},
+    'spec-2-desc': {ca:'Sopa picant de gambes amb llimona, gangal i bolets. Equilibri perfecte entre àcid, picant i salat.', es:'Sopa picante de gambas con limón, galanga y setas. Equilibrio perfecto entre ácido, picante y salado.', en:'Spicy prawn soup with lemon, galangal and mushrooms. Perfect balance of sour, spicy and salty.', fr:'Soupe épicée aux crevettes avec citron, galanga et champignons. Équilibre parfait entre acide, épicé et salé.'},
+    'spec-3-tag': {ca:'Cuina del nord', es:'Cocina del norte', en:'Northern cuisine', fr:'Cuisine du nord'},
+    'spec-3-desc': {ca:'Pollastre a foc lent en pasta de curry verd, llet de coco, alberginia tailandesa i albahaca dolça. Cremós i aromàtic.', es:'Pollo a fuego lento en pasta de curry verde, leche de coco, berenjena tailandesa y albahaca dulce. Cremoso y aromático.', en:'Slow-cooked chicken in green curry paste, coconut milk, Thai eggplant and sweet basil. Creamy and aromatic.', fr:'Poulet mijoté en pâte de curry vert, lait de coco, aubergine thaï et basilic doux. Crémeux et aromatique.'},
+    'spec-4-tag': {ca:'Per acabar', es:'Para terminar', en:'To finish', fr:'Pour finir'},
+    'spec-4-desc': {ca:'Arròs glutinós cuit amb llet de coco i mango fresc. La postre nacional tailandesa: dolça, simple, perfecta.', es:'Arroz glutinoso cocido con leche de coco y mango fresco. El postre nacional tailandés: dulce, simple, perfecto.', en:'Glutinous rice cooked in coconut milk with fresh mango. Thailand\'s national dessert: sweet, simple, perfect.', fr:'Riz gluant cuit au lait de coco avec mangue fraîche. Le dessert national thaïlandais: doux, simple, parfait.'},
+    'menu-eyebrow': {ca:'La nostra carta', es:'Nuestra carta', en:'Our menu', fr:'Notre carte'},
+    'menu-title': {ca:'Cuina <em>tradicional</em>', es:'Cocina <em>tradicional</em>', en:'<em>Traditional</em> cuisine', fr:'Cuisine <em>traditionnelle</em>'},
+    'cat-starters': {ca:'Entrants', es:'Entrantes', en:'Starters', fr:'Entrées'},
+    'cat-soups': {ca:'Sopes', es:'Sopas', en:'Soups', fr:'Soupes'},
+    'cat-currys': {ca:'Currys', es:'Currys', en:'Curries', fr:'Currys'},
+    'cat-noodles': {ca:'Fideus i Arròs', es:'Fideos y Arroz', en:'Noodles & Rice', fr:'Nouilles & Riz'},
+    'cat-desserts': {ca:'Postres', es:'Postres', en:'Desserts', fr:'Desserts'},
+    // ENTRANTS
+    'm-springrolls': {ca:'Rotllets cruixents farcits de verdures i fideus de cristall, amb salsa agredolça.', es:'Rollitos crujientes rellenos de verduras y fideos de cristal, con salsa agridulce.', en:'Crispy rolls filled with vegetables and glass noodles, with sweet & sour sauce.', fr:'Rouleaux croustillants farcis de légumes et vermicelles de soja, sauce aigre-douce.'},
+    'm-satay': {ca:'Enfilalls marinats en cúrcuma i llet de coco, amb salsa de cacauet casolana.', es:'Brochetas marinadas en cúrcuma y leche de coco, con salsa de cacahuete casera.', en:'Skewers marinated in turmeric and coconut milk, with homemade peanut sauce.', fr:'Brochettes marinées au curcuma et lait de coco, sauce cacahuète maison.'},
+    'm-somtam': {ca:'Amanida de papaia verda picant amb tomàquet, cacauet i salsa de peix.', es:'Ensalada de papaya verde picante con tomate, cacahuete y salsa de pescado.', en:'Spicy green papaya salad with tomato, peanut and fish sauce.', fr:'Salade épicée de papaye verte avec tomate, cacahuète et sauce poisson.'},
+    'm-todmun': {ca:'Croquetes de peix amb pasta de curry vermell, fulles de kafir i mongetes verdes.', es:'Croquetas de pescado con pasta de curry rojo, hojas de kafir y judías verdes.', en:'Fish cakes with red curry paste, kaffir lime leaves and green beans.', fr:'Galettes de poisson au curry rouge, feuilles de kaffir et haricots verts.'},
+    // SOPES
+    'm-tomyum': {ca:'Sopa picant amb gambes, llimona, gangal, bolets i citronel·la. La més clàssica.', es:'Sopa picante con gambas, limón, galanga, setas y citronela. La más clásica.', en:'Spicy soup with prawns, lemon, galangal, mushrooms and lemongrass. The classic.', fr:'Soupe épicée aux crevettes, citron, galanga, champignons et citronnelle. La classique.'},
+    'm-tomkha': {ca:'Sopa cremosa de pollastre amb llet de coco, gangal i fulles de kafir. Aromàtica.', es:'Sopa cremosa de pollo con leche de coco, galanga y hojas de kafir. Aromática.', en:'Creamy chicken soup with coconut milk, galangal and kaffir lime leaves. Aromatic.', fr:'Soupe crémeuse au poulet, lait de coco, galanga et feuilles de kaffir. Aromatique.'},
+    'm-potak': {ca:'Sopa de marisc tailandesa amb gambes, calamars, musclos i albahaca. Intensa.', es:'Sopa de marisco tailandesa con gambas, calamares, mejillones y albahaca. Intensa.', en:'Thai seafood soup with prawns, squid, mussels and basil. Intense.', fr:'Soupe thaï aux fruits de mer: crevettes, calmars, moules et basilic. Intense.'},
+    'm-khaotom': {ca:'Caldo d\'arròs amb gingebre, all fregit i porc. Reconfortant a l\'estil tailandès.', es:'Caldo de arroz con jengibre, ajo frito y cerdo. Reconfortante al estilo tailandés.', en:'Rice broth with ginger, fried garlic and pork. Comforting Thai-style.', fr:'Bouillon de riz au gingembre, ail frit et porc. Réconfortant à la thaï.'},
+    // CURRYS
+    'm-greencurry': {ca:'Pollastre o tofu amb pasta verda, llet de coco, alberginia tailandesa i albahaca dolça.', es:'Pollo o tofu con pasta verde, leche de coco, berenjena tailandesa y albahaca dulce.', en:'Chicken or tofu in green paste, coconut milk, Thai eggplant and sweet basil.', fr:'Poulet ou tofu en pâte verte, lait de coco, aubergine thaï et basilic doux.'},
+    'm-redcurry': {ca:'Vedella amb pasta de curry vermell, bambú, albahaca i una mica de sucre de palma.', es:'Ternera con pasta de curry rojo, bambú, albahaca y un poco de azúcar de palma.', en:'Beef in red curry paste with bamboo, basil and a touch of palm sugar.', fr:'Bœuf en pâte de curry rouge, bambou, basilic et une touche de sucre de palme.'},
+    'm-massaman': {ca:'Curry suau d\'inspiració persa amb anyell, patata, ceba i cacauet. Dolç i especiat.', es:'Curry suave de inspiración persa con cordero, patata, cebolla y cacahuete. Dulce y especiado.', en:'Mild Persian-inspired curry with lamb, potato, onion and peanut. Sweet and spiced.', fr:'Curry doux d\'inspiration perse avec agneau, pomme de terre, oignon et cacahuète.'},
+    'm-panang': {ca:'Curry sec amb pollastre o vedella, fulles de kafir i llet de coco reduïda.', es:'Curry seco con pollo o ternera, hojas de kafir y leche de coco reducida.', en:'Dry curry with chicken or beef, kaffir lime leaves and reduced coconut milk.', fr:'Curry sec au poulet ou bœuf, feuilles de kaffir et lait de coco réduit.'},
+    // FIDEUS I ARRÒS
+    'm-padthai': {ca:'Fideus d\'arròs amb gambes, ou, tofu, brots de soja i cacauet. El nostre plat estrella.', es:'Fideos de arroz con gambas, huevo, tofu, brotes de soja y cacahuete. Nuestro plato estrella.', en:'Rice noodles with prawns, egg, tofu, bean sprouts and peanut. Our signature dish.', fr:'Nouilles de riz aux crevettes, œuf, tofu, germes de soja et cacahuète. Notre plat phare.'},
+    'm-padseeew': {ca:'Fideus amples saltats amb porc, ou i col xinesa amb salsa de soja fosca.', es:'Fideos anchos salteados con cerdo, huevo y col china con salsa de soja oscura.', en:'Wide noodles stir-fried with pork, egg and Chinese broccoli in dark soy sauce.', fr:'Nouilles larges sautées au porc, œuf et chou chinois en sauce soja foncée.'},
+    'm-khaopad': {ca:'Arròs fregit a l\'estil tailandès amb pollastre, ou, ceba tendra i lima.', es:'Arroz frito al estilo tailandés con pollo, huevo, cebolleta y lima.', en:'Thai-style fried rice with chicken, egg, spring onion and lime.', fr:'Riz frit à la thaï avec poulet, œuf, oignon nouveau et citron vert.'},
+    'm-padkrapow': {ca:'Carn picada saltada amb albahaca santa, all i bitxo, servit amb arròs i ou ferrat.', es:'Carne picada salteada con albahaca santa, ajo y guindilla, servida con arroz y huevo frito.', en:'Minced meat stir-fried with holy basil, garlic and chili, served with rice and a fried egg.', fr:'Viande hachée sautée au basilic sacré, ail et piment, servie avec riz et œuf au plat.'},
+    // POSTRES
+    'm-mango': {ca:'Arròs glutinós amb llet de coco, mango fresc i sèsam torrat. La postre nacional.', es:'Arroz glutinoso con leche de coco, mango fresco y sésamo tostado. El postre nacional.', en:'Glutinous rice with coconut milk, fresh mango and toasted sesame. The national dessert.', fr:'Riz gluant au lait de coco, mangue fraîche et sésame grillé. Le dessert national.'},
+    'm-tubtim': {ca:'Castanyes d\'aigua en gelatina vermella amb gel raspat, llet de coco i jaca.', es:'Castañas de agua en gelatina roja con hielo raspado, leche de coco y jaca.', en:'Water chestnuts in red jelly with shaved ice, coconut milk and jackfruit.', fr:'Châtaignes d\'eau en gelée rouge avec glace pilée, lait de coco et jaque.'},
+    'm-banana': {ca:'Plàtan banyat en pasta cruixent de coco amb gelat de vainilla i mel.', es:'Plátano bañado en pasta crujiente de coco con helado de vainilla y miel.', en:'Banana coated in crispy coconut batter with vanilla ice cream and honey.', fr:'Banane enrobée de pâte croustillante à la noix de coco, glace vanille et miel.'},
+    'm-bualoy': {ca:'Boletes de farina de pandanus en llet de coco calenta amb ou pochè.', es:'Bolitas de harina de pandanus en leche de coco caliente con huevo poché.', en:'Pandanus flour balls in warm coconut milk with poached egg.', fr:'Boulettes de farine de pandanus dans du lait de coco chaud avec œuf poché.'},
+    'reserva-eyebrow': {ca:'Reserva la teva taula', es:'Reserva tu mesa', en:'Book your table', fr:'Réservez votre table'},
+    'reserva-title': {ca:'Una <em>experiència</em> que recordareu.', es:'Una <em>experiencia</em> que recordaréis.', en:'An <em>experience</em> to remember.', fr:'Une <em>expérience</em> mémorable.'},
+    'reserva-info': {ca:'El nostre local té places limitades. Reserveu amb antelació, especialment per a sopars de divendres i dissabte.', es:'Nuestro local tiene plazas limitadas. Reservad con antelación, especialmente para cenas de viernes y sábado.', en:'Our restaurant has limited seating. Please book in advance, especially for Friday and Saturday dinners.', fr:'Notre établissement a des places limitées. Réservez à l\'avance, surtout pour les dîners du vendredi et samedi.'},
+    'reserva-cta': {ca:'Reservar ara', es:'Reservar ahora', en:'Book now', fr:'Réserver maintenant'},
+    'horari-eyebrow': {ca:'Quan ens podeu visitar', es:'Cuándo podéis visitarnos', en:'When you can visit', fr:'Quand nous rendre visite'},
+    'horari-title': {ca:'Horari <em>d\'obertura</em>', es:'Horario <em>de apertura</em>', en:'<em>Opening</em> hours', fr:'<em>Heures</em> d\'ouverture'},
+    'day-mon': {ca:'Dilluns', es:'Lunes', en:'Monday', fr:'Lundi'},
+    'day-tue': {ca:'Dimarts', es:'Martes', en:'Tuesday', fr:'Mardi'},
+    'day-wed': {ca:'Dimecres', es:'Miércoles', en:'Wednesday', fr:'Mercredi'},
+    'day-thu': {ca:'Dijous', es:'Jueves', en:'Thursday', fr:'Jeudi'},
+    'day-fri': {ca:'Divendres', es:'Viernes', en:'Friday', fr:'Vendredi'},
+    'day-sat': {ca:'Dissabte', es:'Sábado', en:'Saturday', fr:'Samedi'},
+    'day-sun': {ca:'Diumenge', es:'Domingo', en:'Sunday', fr:'Dimanche'},
+    'closed': {ca:'Tancat', es:'Cerrado', en:'Closed', fr:'Fermé'},
+    'contact-eyebrow': {ca:'On trobar-nos', es:'Dónde encontrarnos', en:'Where to find us', fr:'Où nous trouver'},
+    'contact-title': {ca:'Veniu a <em>visitar-nos</em>', es:'Venid a <em>visitarnos</em>', en:'Come <em>visit us</em>', fr:'Venez nous <em>rendre visite</em>'},
+    'contact-address': {ca:'Adreça', es:'Dirección', en:'Address', fr:'Adresse'},
+    'contact-phone': {ca:'Telèfon', es:'Teléfono', en:'Phone', fr:'Téléphone'},
+    'contact-wa-btn': {ca:'WhatsApp', es:'WhatsApp', en:'WhatsApp', fr:'WhatsApp'},
+    'contact-call-btn': {ca:'Trucar', es:'Llamar', en:'Call', fr:'Appeler'},
+    'map-cta': {ca:'Obrir a Google Maps', es:'Abrir en Google Maps', en:'Open in Google Maps', fr:'Ouvrir dans Google Maps'},
+    'contact-email': {ca:'Email', es:'Email', en:'Email', fr:'Email'},
+    'contact-followus': {ca:'Seguiu-nos', es:'Seguidnos', en:'Follow us', fr:'Suivez-nous'},
+    'footer-tag': {ca:'Cuina tailandesa autèntica · Costa Brava', es:'Cocina tailandesa auténtica · Costa Brava', en:'Authentic Thai cuisine · Costa Brava', fr:'Cuisine thaï authentique · Costa Brava'},
+    'footer-rights': {ca:'Tots els drets reservats', es:'Todos los derechos reservados', en:'All rights reserved', fr:'Tous droits réservés'},
+  };
+
+  var currentLang = 'ca';
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (i18n[key] && i18n[key][lang]) {
+        el.innerHTML = i18n[key][lang];
+      }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n-placeholder');
+      if (i18n[key] && i18n[key][lang]) {
+        el.placeholder = i18n[key][lang];
+      }
+    });
+    document.getElementById('lang-current').textContent = lang.toUpperCase();
+    document.querySelectorAll('.lang-dropdown button').forEach(function(b) { b.classList.remove('active-lang'); });
+    document.querySelector('.lang-dropdown button[data-lang="' + lang + '"]').classList.add('active-lang');
+    document.getElementById('lang-dropdown').classList.remove('open');
+    document.documentElement.lang = lang;
+  }
+
+  function toggleLang(e) {
+    e.stopPropagation();
+    document.getElementById('lang-dropdown').classList.toggle('open');
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-selector')) {
+      document.getElementById('lang-dropdown').classList.remove('open');
+    }
+  });
+
+  // ===== MOBILE NAV =====
+  function toggleMobileNav() {
+    document.getElementById('nav-menu').classList.toggle('open');
+  }
+
+  // ===== MENU CATEGORIES =====
+  function showCategory(cat) {
+    document.querySelectorAll('.menu-category').forEach(function(c) { c.classList.remove('active'); });
+    document.getElementById('cat-' + cat).classList.add('active');
+    document.querySelectorAll('.menu-tab').forEach(function(t) { t.classList.remove('active'); });
+    event.target.classList.add('active');
+  }
+
+  // ===== MODAL =====
+  function obrirWhatsAppReserva(e) {
+    if (e) e.preventDefault();
+    var phone = '34722619199';
+    var msg = {
+      ca: "Hola! M'agradaria fer una reserva al Thai Palamós. Quan us va bé que us en doni més detalls (data, hora, persones)? Gràcies!",
+      es: "¡Hola! Me gustaría hacer una reserva en Thai Palamós. ¿Cuándo os va bien que os dé más detalles (fecha, hora, personas)? ¡Gracias!",
+      en: "Hi! I'd like to make a booking at Thai Palamós. When would be a good time to share the details (date, time, guests)? Thank you!",
+      fr: "Bonjour! Je souhaiterais réserver une table au Thai Palamós. Quand serait-il bien de vous donner les détails (date, heure, personnes)? Merci!"
+    };
+    var text = encodeURIComponent(msg[currentLang] || msg.ca);
+    window.open('https://wa.me/' + phone + '?text=' + text, '_blank');
+  }
+
+</script>
+
+</body>
+</html>
